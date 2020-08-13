@@ -196,3 +196,14 @@ private long[] distribute(long amount, int count) {
 }
 ```
 
+
+***
+
+
+테스트
+---
+* Init Data
+  * 유저 10명, 단톡방 2개 생성
+  * 1-5번 유저는 1번 단톡방에, 6-10번 유저는 2번 단톡방에 참여
+
+* 뿌리기, 받기, 조회별 성공, 실패(dto valid 및 에러코드별) 케이스 작성
