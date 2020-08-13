@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import kakaopay.money.dto.CreateShootingDto;
 import kakaopay.money.dto.ReceiveMoneyDto;
 import kakaopay.money.dto.ShootingInfoDto;
+import kakaopay.money.dto.response.ErrorMessage;
 import kakaopay.money.entity.Room;
 import kakaopay.money.entity.Shooting;
 import kakaopay.money.repository.RoomRepository;
@@ -67,21 +68,21 @@ public class GetShootingInfoApiTest {
 
         Shooting shooting = shootingRepository.findTop1ByOrderByCreateDateDesc();
 
-        this.mockMvc.perform(get("/api/v1/money")
+        this.mockMvc.perform(put(URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(USER_ID, 2L)
                 .header(ROOM_ID, shooting.getRoom().getId().toString())
                 .param("token", shooting.getToken()))
                 .andExpect(status().isOk());
 
-        this.mockMvc.perform(get("/api/v1/money")
+        this.mockMvc.perform(put(URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(USER_ID, 3L)
                 .header(ROOM_ID, shooting.getRoom().getId().toString())
                 .param("token", shooting.getToken()))
                 .andExpect(status().isOk());
 
-        this.mockMvc.perform(get("/api/v1/money")
+        this.mockMvc.perform(put(URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(USER_ID, 4L)
                 .header(ROOM_ID, shooting.getRoom().getId().toString())
@@ -115,8 +116,8 @@ public class GetShootingInfoApiTest {
     }
 
     @Test
-    @DisplayName("조회_실패 : token 길이는 3이어야 합니다")
-    public void getInfo_fail_1() throws Exception {
+    @DisplayName("조회_실패 : E006")
+    public void getInfo_fail_E006() throws Exception {
         Shooting shooting = shootingRepository.findTop1ByOrderByCreateDateDesc();
 
         MvcResult result = this.mockMvc.perform(get(URL)
@@ -129,12 +130,12 @@ public class GetShootingInfoApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isBadRequest(result));
-        assertTrue(testService.isErrorMessage(result, "token 길이는 3이어야 합니다."));
+        assertTrue(testService.isErrorMessage(result, ErrorMessage.E006));
     }
 
     @Test
-    @DisplayName("조회_실패 : 잘못된 대화방 입니다")
-    public void getInfo_fail_2() throws Exception {
+    @DisplayName("조회_실패 : E002")
+    public void getInfo_fail_E002() throws Exception {
         Shooting shooting = shootingRepository.findTop1ByOrderByCreateDateDesc();
 
         MvcResult result = this.mockMvc.perform(get(URL)
@@ -147,12 +148,12 @@ public class GetShootingInfoApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isBadRequest(result));
-        assertTrue(testService.isErrorMessage(result, "잘못된 대화방 입니다."));
+        assertTrue(testService.isErrorMessage(result, ErrorMessage.E002));
     }
 
     @Test
-    @DisplayName("조회_실패 : 잘못된 유저 또는 대화방 입니다")
-    public void getInfo_fail_3() throws Exception {
+    @DisplayName("조회_실패 : E003")
+    public void getInfo_fail_E003() throws Exception {
         Shooting shooting = shootingRepository.findTop1ByOrderByCreateDateDesc();
 
         MvcResult result = this.mockMvc.perform(get(URL)
@@ -165,12 +166,12 @@ public class GetShootingInfoApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isBadRequest(result));
-        assertTrue(testService.isErrorMessage(result, "잘못된 유저 또는 대화방 입니다."));
+        assertTrue(testService.isErrorMessage(result, ErrorMessage.E003));
     }
 
     @Test
-    @DisplayName("조회_실패 : 잘못된 token 입니다")
-    public void getInfo_fail_4() throws Exception {
+    @DisplayName("조회_실패 : E008")
+    public void getInfo_fail_E008() throws Exception {
         Shooting shooting = shootingRepository.findTop1ByOrderByCreateDateDesc();
 
         MvcResult result = this.mockMvc.perform(get(URL)
@@ -183,12 +184,12 @@ public class GetShootingInfoApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isBadRequest(result));
-        assertTrue(testService.isErrorMessage(result, "잘못된 token 입니다."));
+        assertTrue(testService.isErrorMessage(result, ErrorMessage.E008));
     }
 
     @Test
-    @DisplayName("조회_실패 : 본인이 뿌린 건만 조회할 수 있습니다")
-    public void getInfo_fail_5() throws Exception {
+    @DisplayName("조회_실패 : E012")
+    public void getInfo_fail_E012() throws Exception {
         Shooting shooting = shootingRepository.findTop1ByOrderByCreateDateDesc();
 
         MvcResult result = this.mockMvc.perform(get(URL)
@@ -201,12 +202,12 @@ public class GetShootingInfoApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isNotAcceptable(result));
-        assertTrue(testService.isErrorMessage(result, "본인이 뿌린 건만 조회할 수 있습니다."));
+        assertTrue(testService.isErrorMessage(result, ErrorMessage.E012));
     }
 
     @Test
-    @DisplayName("조회_실패 : 뿌린 건에 대한 조회는 7일 동안만 할 수 있습니다")
-    public void getInfo_fail_6() throws Exception {
+    @DisplayName("조회_실패 : E013")
+    public void getInfo_fail_E013() throws Exception {
         Shooting shooting = shootingRepository.findTop1ByOrderByCreateDateDesc();
         shooting.changeCreateDateOnlyTest(LocalDateTime.now().minusDays(8));
 
@@ -220,7 +221,7 @@ public class GetShootingInfoApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isNotAcceptable(result));
-        assertTrue(testService.isErrorMessage(result, "뿌린 건에 대한 조회는 7일 동안만 할 수 있습니다."));
+        assertTrue(testService.isErrorMessage(result, ErrorMessage.E013));
     }
 
 }

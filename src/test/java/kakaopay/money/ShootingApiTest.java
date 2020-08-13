@@ -2,6 +2,7 @@ package kakaopay.money;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kakaopay.money.dto.CreateShootingDto;
+import kakaopay.money.dto.response.ErrorMessage;
 import kakaopay.money.entity.*;
 import kakaopay.money.repository.ReceiveRepository;
 import kakaopay.money.repository.RoomRepository;
@@ -97,8 +98,8 @@ public class ShootingApiTest {
     }
 
     @Test
-    @DisplayName("돈뿌리기_실패 : 뿌릴 금액은 뿌릴 인원수보다 커야합니다")
-    public void shooting_fail_2() throws Exception {
+    @DisplayName("돈뿌리기_실패 : E001")
+    public void shooting_fail_E001() throws Exception {
         long amount = 4L;
         int count = 5;
         CreateShootingDto dto = new CreateShootingDto(amount, count);
@@ -116,12 +117,12 @@ public class ShootingApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isBadRequest(result));
-        assertTrue(testService.isErrorMessage(result, "뿌릴 금액은 뿌릴 인원수보다 커야합니다."));
+        assertTrue(testService.isErrorMessage(result, ErrorMessage.E001));
     }
 
     @Test
-    @DisplayName("돈뿌리기_실패 : 잘못된 대화방 입니다")
-    public void shooting_fail_3() throws Exception {
+    @DisplayName("돈뿌리기_실패 : E002")
+    public void shooting_fail_E002() throws Exception {
         long amount = 10000L;
         int count = 5;
         CreateShootingDto dto = new CreateShootingDto(amount, count);
@@ -137,12 +138,12 @@ public class ShootingApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isBadRequest(result));
-        assertTrue(testService.isErrorMessage(result, "잘못된 대화방 입니다."));
+        assertTrue(testService.isErrorMessage(result, ErrorMessage.E002));
     }
 
     @Test
-    @DisplayName("돈뿌리기_실패 : 잘못된 유저 또는 대화방 입니다")
-    public void shooting_fail_4() throws Exception {
+    @DisplayName("돈뿌리기_실패 : E003")
+    public void shooting_fail_E003() throws Exception {
         long amount = 10000L;
         int count = 5;
         CreateShootingDto dto = new CreateShootingDto(amount, count);
@@ -158,12 +159,12 @@ public class ShootingApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isBadRequest(result));
-        assertTrue(testService.isErrorMessage(result, "잘못된 유저 또는 대화방 입니다."));
+        assertTrue(testService.isErrorMessage(result, ErrorMessage.E003));
     }
 
     @Test
-    @DisplayName("돈뿌리기_실패 : 뿌리기는 참여중인 대화방 에서만 가능합니다")
-    public void shooting_fail_5() throws Exception {
+    @DisplayName("돈뿌리기_실패 : E004")
+    public void shooting_fail_E004() throws Exception {
         long amount = 10000L;
         int count = 5;
         CreateShootingDto dto = new CreateShootingDto(amount, count);
@@ -181,12 +182,12 @@ public class ShootingApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isNotAcceptable(result));
-        assertTrue(testService.isErrorMessage(result, "뿌리기는 참여중인 대화방 에서만 가능합니다."));
+        assertTrue(testService.isErrorMessage(result, ErrorMessage.E004));
     }
 
     @Test
-    @DisplayName("돈뿌리기_실패 : 뿌릴 인원수의 최대값은 대화방 인원수 입니다")
-    public void shooting_fail_6() throws Exception {
+    @DisplayName("돈뿌리기_실패 : E005")
+    public void shooting_fail_E005() throws Exception {
         long amount = 10000L;
         int count = 6;
         CreateShootingDto dto = new CreateShootingDto(amount, count);
@@ -204,7 +205,7 @@ public class ShootingApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isNotAcceptable(result));
-        assertTrue(testService.isErrorMessage(result, "뿌릴 인원수의 최대값은 대화방 인원수 입니다."));
+        assertTrue(testService.isErrorMessage(result, ErrorMessage.E005));
     }
 
 }

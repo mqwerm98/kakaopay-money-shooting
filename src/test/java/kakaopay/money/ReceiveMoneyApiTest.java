@@ -2,6 +2,7 @@ package kakaopay.money;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kakaopay.money.dto.CreateShootingDto;
+import kakaopay.money.dto.response.ErrorMessage;
 import kakaopay.money.entity.Receive;
 import kakaopay.money.entity.Room;
 import kakaopay.money.entity.Shooting;
@@ -46,7 +47,7 @@ public class ReceiveMoneyApiTest {
 
     private static final String USER_ID = "X-USER-ID";
     private static final String ROOM_ID = "X-ROOM-ID";
-    private static final String URL = "/api/v1/money";
+    private static final String URL = "/api/v1/shooting";
 
     @BeforeEach
     private void shooting() throws Exception {
@@ -70,7 +71,7 @@ public class ReceiveMoneyApiTest {
     public void receiveMoney_success() throws Exception {
         Shooting shooting = shootingRepository.findTop1ByOrderByCreateDateDesc();
 
-        MvcResult result = this.mockMvc.perform(get(URL)
+        MvcResult result = this.mockMvc.perform(put(URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(USER_ID, 2L)
                 .header(ROOM_ID, shooting.getRoom().getId().toString())
@@ -86,11 +87,11 @@ public class ReceiveMoneyApiTest {
     }
 
     @Test
-    @DisplayName("돈받기_실패 : token 길이는 3이어야 합니다")
-    public void receiveMoney_fail_1() throws Exception {
+    @DisplayName("돈받기_실패 : E006")
+    public void receiveMoney_fail_E006() throws Exception {
         Shooting shooting = shootingRepository.findTop1ByOrderByCreateDateDesc();
 
-        MvcResult result = this.mockMvc.perform(get(URL)
+        MvcResult result = this.mockMvc.perform(put(URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(USER_ID, 2L)
                 .header(ROOM_ID, shooting.getRoom().getId().toString())
@@ -100,15 +101,15 @@ public class ReceiveMoneyApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isBadRequest(result));
-        assertTrue(testService.isErrorMessage(result, "token 길이는 3이어야 합니다."));
+        assertTrue(testService.isErrorMessage(result, ErrorMessage.E006));
     }
 
     @Test
-    @DisplayName("돈받기_실패 : 잘못된 대화방 입니다")
-    public void receiveMoney_fail_2() throws Exception {
+    @DisplayName("돈받기_실패 : E002")
+    public void receiveMoney_fail_E002() throws Exception {
         Shooting shooting = shootingRepository.findTop1ByOrderByCreateDateDesc();
 
-        MvcResult result = this.mockMvc.perform(get(URL)
+        MvcResult result = this.mockMvc.perform(put(URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(USER_ID, 2L)
                 .header(ROOM_ID, "UUID!")
@@ -118,15 +119,15 @@ public class ReceiveMoneyApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isBadRequest(result));
-        assertTrue(testService.isErrorMessage(result, "잘못된 대화방 입니다."));
+        assertTrue(testService.isErrorMessage(result, ErrorMessage.E002));
     }
 
     @Test
-    @DisplayName("돈받기_실패 : 잘못된 유저 또는 대화방 입니다")
-    public void receiveMoney_fail_3() throws Exception {
+    @DisplayName("돈받기_실패 : E003")
+    public void receiveMoney_fail_E003() throws Exception {
         Shooting shooting = shootingRepository.findTop1ByOrderByCreateDateDesc();
 
-        MvcResult result = this.mockMvc.perform(get(URL)
+        MvcResult result = this.mockMvc.perform(put(URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(USER_ID, 1000L)
                 .header(ROOM_ID, "f0707272-a5b5-4f72-a4dc-5325b534eb1c")
@@ -136,15 +137,15 @@ public class ReceiveMoneyApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isBadRequest(result));
-        assertTrue(testService.isErrorMessage(result, "잘못된 유저 또는 대화방 입니다."));
+        assertTrue(testService.isErrorMessage(result, ErrorMessage.E003));
     }
 
     @Test
-    @DisplayName("돈받기_실패 : 참여중인 대화방 에서만 가능합니다")
-    public void receiveMoney_fail_4() throws Exception {
+    @DisplayName("돈받기_실패 : E007")
+    public void receiveMoney_fail_E007() throws Exception {
         Shooting shooting = shootingRepository.findTop1ByOrderByCreateDateDesc();
 
-        MvcResult result = this.mockMvc.perform(get(URL)
+        MvcResult result = this.mockMvc.perform(put(URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(USER_ID, 6L)
                 .header(ROOM_ID, shooting.getRoom().getId().toString())
@@ -154,15 +155,15 @@ public class ReceiveMoneyApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isNotAcceptable(result));
-        assertTrue(testService.isErrorMessage(result, "참여중인 대화방 에서만 가능합니다."));
+        assertTrue(testService.isErrorMessage(result, ErrorMessage.E007));
     }
 
     @Test
-    @DisplayName("돈받기_실패 : 잘못된 token 입니다")
-    public void receiveMoney_fail_5() throws Exception {
+    @DisplayName("돈받기_실패 : E008")
+    public void receiveMoney_fail_E008() throws Exception {
         Shooting shooting = shootingRepository.findTop1ByOrderByCreateDateDesc();
 
-        MvcResult result = this.mockMvc.perform(get(URL)
+        MvcResult result = this.mockMvc.perform(put(URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(USER_ID, 2L)
                 .header(ROOM_ID, shooting.getRoom().getId().toString())
@@ -172,16 +173,16 @@ public class ReceiveMoneyApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isBadRequest(result));
-        assertTrue(testService.isErrorMessage(result, "잘못된 token 입니다."));
+        assertTrue(testService.isErrorMessage(result, ErrorMessage.E008));
     }
 
     @Test
-    @DisplayName("돈받기_실패 : 종료된 뿌리기 입니다")
-    public void receiveMoney_fail_6() throws Exception {
+    @DisplayName("돈받기_실패 : E009")
+    public void receiveMoney_fail_E009() throws Exception {
         Shooting shooting = shootingRepository.findTop1ByOrderByCreateDateDesc();
         shooting.changeCreateDateOnlyTest(LocalDateTime.now().minusMinutes(11));
 
-        MvcResult result = this.mockMvc.perform(get(URL)
+        MvcResult result = this.mockMvc.perform(put(URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(USER_ID, 2L)
                 .header(ROOM_ID, shooting.getRoom().getId().toString())
@@ -191,15 +192,15 @@ public class ReceiveMoneyApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isNotAcceptable(result));
-        assertTrue(testService.isErrorMessage(result, "종료된 뿌리기 입니다."));
+        assertTrue(testService.isErrorMessage(result, ErrorMessage.E009));
     }
 
     @Test
-    @DisplayName("돈받기_실패 : 자신이 뿌린건 받을 수 없습니다")
-    public void receiveMoney_fail_7() throws Exception {
+    @DisplayName("돈받기_실패 : E010")
+    public void receiveMoney_fail_E010() throws Exception {
         Shooting shooting = shootingRepository.findTop1ByOrderByCreateDateDesc();
 
-        MvcResult result = this.mockMvc.perform(get(URL)
+        MvcResult result = this.mockMvc.perform(put(URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(USER_ID, 1L)
                 .header(ROOM_ID, shooting.getRoom().getId().toString())
@@ -209,15 +210,15 @@ public class ReceiveMoneyApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isNotAcceptable(result));
-        assertTrue(testService.isErrorMessage(result, "자신이 뿌린건 받을 수 없습니다."));
+        assertTrue(testService.isErrorMessage(result, ErrorMessage.E010));
     }
 
     @Test
-    @DisplayName("돈받기_실패 : 이미 받았습니다")
-    public void receiveMoney_fail_8() throws Exception {
+    @DisplayName("돈받기_실패 : E011")
+    public void receiveMoney_fail_E011() throws Exception {
         Shooting shooting = shootingRepository.findTop1ByOrderByCreateDateDesc();
 
-        MvcResult result = this.mockMvc.perform(get(URL)
+        MvcResult result = this.mockMvc.perform(put(URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(USER_ID, 2L)
                 .header(ROOM_ID, shooting.getRoom().getId().toString())
@@ -227,7 +228,7 @@ public class ReceiveMoneyApiTest {
 
         assertTrue(testService.isSuccess(result));
 
-        result = this.mockMvc.perform(get(URL)
+        result = this.mockMvc.perform(put(URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(USER_ID, 2L)
                 .header(ROOM_ID, shooting.getRoom().getId().toString())
@@ -237,7 +238,7 @@ public class ReceiveMoneyApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isNotAcceptable(result));
-        assertTrue(testService.isErrorMessage(result, "이미 받았습니다."));
+        assertTrue(testService.isErrorMessage(result, ErrorMessage.E011));
     }
 
 }

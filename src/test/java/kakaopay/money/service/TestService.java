@@ -1,6 +1,7 @@
 package kakaopay.money.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import kakaopay.money.dto.response.ErrorMessage;
 import kakaopay.money.dto.response.ResponseError;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +34,9 @@ public class TestService {
         return error.getStatus() == HttpStatus.NOT_ACCEPTABLE.value();
     }
 
-    public boolean isErrorMessage(MvcResult result, String message) throws Exception {
+    public boolean isErrorMessage(MvcResult result, ErrorMessage message) throws Exception {
         ResponseError error = getResponseError(result);
-        return error.getMessage().equals(message);
+        return error.getMessage().equals(message.getValue());
     }
 
     public ResponseError getResponseError(MvcResult result) throws Exception {

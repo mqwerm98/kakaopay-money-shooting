@@ -27,6 +27,10 @@ public class Response<T> {
         return new Response<>(false, null, new ResponseError(errorMessage, status));
     }
 
+    public static Response ERROR(ErrorMessage errorMessage) {
+        return new Response<>(false, null, new ResponseError(errorMessage.getValue(), errorMessage.getStatus()));
+    }
+
     public static Response BAD_REQUEST_ERROR() {
         return new Response<>(false, null, new ResponseError(HttpStatus.BAD_REQUEST.getReasonPhrase(), HttpStatus.BAD_REQUEST));
     }
