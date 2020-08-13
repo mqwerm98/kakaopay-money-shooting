@@ -10,7 +10,6 @@ import kakaopay.money.repository.ShootingRepository;
 import kakaopay.money.repository.UserRepository;
 import kakaopay.money.service.ShootingService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -76,26 +75,26 @@ public class ShootingController {
         if (message != null) return Response.ERROR(message);
 
         if (!shootingService.checkUserInRoom(userId, roomUUID)) {
-            return Response.ERROR(ErrorMessage.E007);
+            return Response.ERROR(ErrorMessage.E004);
         }
 
         Shooting shooting = shootingRepository.findByRoomIdAndToken(roomUUID, token);
 
         if (shooting == null) {
-            return Response.ERROR(ErrorMessage.E008);
+            return Response.ERROR(ErrorMessage.E007);
         }
 
         if (shooting.getCreateDate().plusMinutes(10).isBefore(LocalDateTime.now())) {
-            return Response.ERROR(ErrorMessage.E009);
+            return Response.ERROR(ErrorMessage.E008);
         }
 
         User user = userRepository.findById(userId).get();
         if (shooting.getUser().equals(user)) {
-            return Response.ERROR(ErrorMessage.E010);
+            return Response.ERROR(ErrorMessage.E009);
         }
 
         if (shootingService.checkReceived(shooting, user)) {
-            return Response.ERROR(ErrorMessage.E011);
+            return Response.ERROR(ErrorMessage.E010);
         }
 
         long amount = shootingService.receive(shooting, user);
@@ -117,17 +116,17 @@ public class ShootingController {
         Shooting shooting = shootingRepository.findByRoomIdAndToken(roomUUID, token);
 
         if (shooting == null) {
-            return Response.ERROR(ErrorMessage.E008);
+            return Response.ERROR(ErrorMessage.E007);
         }
 
         User user = userRepository.findById(userId).get();
 
         if (!shooting.getUser().equals(user)) {
-            return Response.ERROR(ErrorMessage.E012);
+            return Response.ERROR(ErrorMessage.E011);
         }
 
         if (shooting.getCreateDate().plusDays(7).isBefore(LocalDateTime.now())) {
-            return Response.ERROR(ErrorMessage.E013);
+            return Response.ERROR(ErrorMessage.E012);
         }
 
         ShootingInfoDto dto = shootingService.getInfo(shooting);

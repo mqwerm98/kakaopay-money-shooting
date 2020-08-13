@@ -170,8 +170,8 @@ public class GetShootingInfoApiTest {
     }
 
     @Test
-    @DisplayName("조회_실패 : E008")
-    public void getInfo_fail_E008() throws Exception {
+    @DisplayName("조회_실패 : E007")
+    public void getInfo_fail_E007() throws Exception {
         Shooting shooting = shootingRepository.findTop1ByOrderByCreateDateDesc();
 
         MvcResult result = this.mockMvc.perform(get(URL)
@@ -184,12 +184,12 @@ public class GetShootingInfoApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isBadRequest(result));
-        assertTrue(testService.isErrorMessage(result, ErrorMessage.E008));
+        assertTrue(testService.isErrorMessage(result, ErrorMessage.E007));
     }
 
     @Test
-    @DisplayName("조회_실패 : E012")
-    public void getInfo_fail_E012() throws Exception {
+    @DisplayName("조회_실패 : E011")
+    public void getInfo_fail_E011() throws Exception {
         Shooting shooting = shootingRepository.findTop1ByOrderByCreateDateDesc();
 
         MvcResult result = this.mockMvc.perform(get(URL)
@@ -202,12 +202,12 @@ public class GetShootingInfoApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isNotAcceptable(result));
-        assertTrue(testService.isErrorMessage(result, ErrorMessage.E012));
+        assertTrue(testService.isErrorMessage(result, ErrorMessage.E011));
     }
 
     @Test
-    @DisplayName("조회_실패 : E013")
-    public void getInfo_fail_E013() throws Exception {
+    @DisplayName("조회_실패 : E012")
+    public void getInfo_fail_E012() throws Exception {
         Shooting shooting = shootingRepository.findTop1ByOrderByCreateDateDesc();
         shooting.changeCreateDateOnlyTest(LocalDateTime.now().minusDays(8));
 
@@ -221,7 +221,7 @@ public class GetShootingInfoApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isNotAcceptable(result));
-        assertTrue(testService.isErrorMessage(result, ErrorMessage.E013));
+        assertTrue(testService.isErrorMessage(result, ErrorMessage.E012));
     }
 
 }

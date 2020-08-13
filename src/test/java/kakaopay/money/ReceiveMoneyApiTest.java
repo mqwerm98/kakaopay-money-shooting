@@ -141,8 +141,8 @@ public class ReceiveMoneyApiTest {
     }
 
     @Test
-    @DisplayName("돈받기_실패 : E007")
-    public void receiveMoney_fail_E007() throws Exception {
+    @DisplayName("돈받기_실패 : E004")
+    public void receiveMoney_fail_E004() throws Exception {
         Shooting shooting = shootingRepository.findTop1ByOrderByCreateDateDesc();
 
         MvcResult result = this.mockMvc.perform(put(URL)
@@ -155,12 +155,12 @@ public class ReceiveMoneyApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isNotAcceptable(result));
-        assertTrue(testService.isErrorMessage(result, ErrorMessage.E007));
+        assertTrue(testService.isErrorMessage(result, ErrorMessage.E004));
     }
 
     @Test
-    @DisplayName("돈받기_실패 : E008")
-    public void receiveMoney_fail_E008() throws Exception {
+    @DisplayName("돈받기_실패 : E007")
+    public void receiveMoney_fail_E007() throws Exception {
         Shooting shooting = shootingRepository.findTop1ByOrderByCreateDateDesc();
 
         MvcResult result = this.mockMvc.perform(put(URL)
@@ -173,12 +173,12 @@ public class ReceiveMoneyApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isBadRequest(result));
-        assertTrue(testService.isErrorMessage(result, ErrorMessage.E008));
+        assertTrue(testService.isErrorMessage(result, ErrorMessage.E007));
     }
 
     @Test
-    @DisplayName("돈받기_실패 : E009")
-    public void receiveMoney_fail_E009() throws Exception {
+    @DisplayName("돈받기_실패 : E008")
+    public void receiveMoney_fail_E008() throws Exception {
         Shooting shooting = shootingRepository.findTop1ByOrderByCreateDateDesc();
         shooting.changeCreateDateOnlyTest(LocalDateTime.now().minusMinutes(11));
 
@@ -192,12 +192,12 @@ public class ReceiveMoneyApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isNotAcceptable(result));
-        assertTrue(testService.isErrorMessage(result, ErrorMessage.E009));
+        assertTrue(testService.isErrorMessage(result, ErrorMessage.E008));
     }
 
     @Test
-    @DisplayName("돈받기_실패 : E010")
-    public void receiveMoney_fail_E010() throws Exception {
+    @DisplayName("돈받기_실패 : E009")
+    public void receiveMoney_fail_E009() throws Exception {
         Shooting shooting = shootingRepository.findTop1ByOrderByCreateDateDesc();
 
         MvcResult result = this.mockMvc.perform(put(URL)
@@ -210,12 +210,12 @@ public class ReceiveMoneyApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isNotAcceptable(result));
-        assertTrue(testService.isErrorMessage(result, ErrorMessage.E010));
+        assertTrue(testService.isErrorMessage(result, ErrorMessage.E009));
     }
 
     @Test
-    @DisplayName("돈받기_실패 : E011")
-    public void receiveMoney_fail_E011() throws Exception {
+    @DisplayName("돈받기_실패 : E010")
+    public void receiveMoney_fail_E010() throws Exception {
         Shooting shooting = shootingRepository.findTop1ByOrderByCreateDateDesc();
 
         MvcResult result = this.mockMvc.perform(put(URL)
@@ -238,7 +238,7 @@ public class ReceiveMoneyApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isNotAcceptable(result));
-        assertTrue(testService.isErrorMessage(result, ErrorMessage.E011));
+        assertTrue(testService.isErrorMessage(result, ErrorMessage.E010));
     }
 
 }
