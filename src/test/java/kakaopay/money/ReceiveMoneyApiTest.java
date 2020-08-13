@@ -12,7 +12,6 @@ import kakaopay.money.service.TestService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -39,8 +38,6 @@ public class ReceiveMoneyApiTest {
 
     @Autowired private ObjectMapper objectMapper;
 
-    @Autowired private ModelMapper modelMapper;
-
     @Autowired private RoomRepository roomRepository;
 
     @Autowired private ShootingRepository shootingRepository;
@@ -53,7 +50,7 @@ public class ReceiveMoneyApiTest {
 
     @BeforeEach
     private void shooting() throws Exception {
-        long amount = 10000;
+        long amount = 10000L;
         int count = 5;
         CreateShootingDto dto = new CreateShootingDto(amount, count);
         String json = objectMapper.writeValueAsString(dto);
@@ -103,6 +100,7 @@ public class ReceiveMoneyApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isBadRequest(result));
+        assertTrue(testService.isErrorMessage(result, "token 길이는 3이어야 합니다."));
     }
 
     @Test
@@ -120,6 +118,7 @@ public class ReceiveMoneyApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isBadRequest(result));
+        assertTrue(testService.isErrorMessage(result, "잘못된 대화방 입니다."));
     }
 
     @Test
@@ -137,6 +136,7 @@ public class ReceiveMoneyApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isBadRequest(result));
+        assertTrue(testService.isErrorMessage(result, "잘못된 유저 또는 대화방 입니다."));
     }
 
     @Test
@@ -154,6 +154,7 @@ public class ReceiveMoneyApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isNotAcceptable(result));
+        assertTrue(testService.isErrorMessage(result, "참여중인 대화방 에서만 가능합니다."));
     }
 
     @Test
@@ -171,6 +172,7 @@ public class ReceiveMoneyApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isBadRequest(result));
+        assertTrue(testService.isErrorMessage(result, "잘못된 token 입니다."));
     }
 
     @Test
@@ -189,6 +191,7 @@ public class ReceiveMoneyApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isNotAcceptable(result));
+        assertTrue(testService.isErrorMessage(result, "종료된 뿌리기 입니다."));
     }
 
     @Test
@@ -206,6 +209,7 @@ public class ReceiveMoneyApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isNotAcceptable(result));
+        assertTrue(testService.isErrorMessage(result, "자신이 뿌린건 받을 수 없습니다."));
     }
 
     @Test
@@ -233,6 +237,7 @@ public class ReceiveMoneyApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isNotAcceptable(result));
+        assertTrue(testService.isErrorMessage(result, "이미 받았습니다."));
     }
 
 }

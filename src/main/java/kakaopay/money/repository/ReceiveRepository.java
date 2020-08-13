@@ -15,7 +15,5 @@ public interface ReceiveRepository extends JpaRepository<Receive, Long> {
 
     List<Receive> findByShootingAndReceived(Shooting shooting, boolean received);
 
-    long countByShooting(Shooting shooting);
-
     List<Receive> findByShooting(Shooting shooting);
 }

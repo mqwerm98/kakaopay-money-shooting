@@ -6,7 +6,6 @@ import kakaopay.money.dto.ReceiveMoneyDto;
 import kakaopay.money.dto.ShootingInfoDto;
 import kakaopay.money.entity.Room;
 import kakaopay.money.entity.Shooting;
-import kakaopay.money.repository.ReceiveRepository;
 import kakaopay.money.repository.RoomRepository;
 import kakaopay.money.repository.ShootingRepository;
 import kakaopay.money.service.TestService;
@@ -52,7 +51,7 @@ public class GetShootingInfoApiTest {
 
     @BeforeEach
     private void shootingAndAllReceive() throws Exception {
-        long amount = 10000;
+        long amount = 10000L;
         int count = 3;
         CreateShootingDto dto = new CreateShootingDto(amount, count);
         String json = objectMapper.writeValueAsString(dto);
@@ -130,6 +129,7 @@ public class GetShootingInfoApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isBadRequest(result));
+        assertTrue(testService.isErrorMessage(result, "token 길이는 3이어야 합니다."));
     }
 
     @Test
@@ -147,6 +147,7 @@ public class GetShootingInfoApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isBadRequest(result));
+        assertTrue(testService.isErrorMessage(result, "잘못된 대화방 입니다."));
     }
 
     @Test
@@ -164,6 +165,7 @@ public class GetShootingInfoApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isBadRequest(result));
+        assertTrue(testService.isErrorMessage(result, "잘못된 유저 또는 대화방 입니다."));
     }
 
     @Test
@@ -181,6 +183,7 @@ public class GetShootingInfoApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isBadRequest(result));
+        assertTrue(testService.isErrorMessage(result, "잘못된 token 입니다."));
     }
 
     @Test
@@ -198,6 +201,7 @@ public class GetShootingInfoApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isNotAcceptable(result));
+        assertTrue(testService.isErrorMessage(result, "본인이 뿌린 건만 조회할 수 있습니다."));
     }
 
     @Test
@@ -208,7 +212,7 @@ public class GetShootingInfoApiTest {
 
         MvcResult result = this.mockMvc.perform(get(URL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .header(USER_ID, 2L)
+                .header(USER_ID, 1L)
                 .header(ROOM_ID, shooting.getRoom().getId().toString())
                 .param("token", shooting.getToken()))
                 .andExpect(status().isOk())
@@ -216,6 +220,7 @@ public class GetShootingInfoApiTest {
 
         assertFalse(testService.isSuccess(result));
         assertTrue(testService.isNotAcceptable(result));
+        assertTrue(testService.isErrorMessage(result, "뿌린 건에 대한 조회는 7일 동안만 할 수 있습니다."));
     }
 
 }

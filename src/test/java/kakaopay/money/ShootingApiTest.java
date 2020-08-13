@@ -47,7 +47,7 @@ public class ShootingApiTest {
     @Test
     @DisplayName("돈뿌리기_성공")
     public void shooting_success() throws Exception {
-        long amount = 10000;
+        long amount = 1000000000L;
         int count = 5;
         CreateShootingDto dto = new CreateShootingDto(amount, count);
         String json = objectMapper.writeValueAsString(dto);
@@ -99,7 +99,7 @@ public class ShootingApiTest {
     @Test
     @DisplayName("돈뿌리기_실패 : 뿌릴 금액은 뿌릴 인원수보다 커야합니다")
     public void shooting_fail_2() throws Exception {
-        long amount = 4;
+        long amount = 4L;
         int count = 5;
         CreateShootingDto dto = new CreateShootingDto(amount, count);
         String json = objectMapper.writeValueAsString(dto);
@@ -122,7 +122,7 @@ public class ShootingApiTest {
     @Test
     @DisplayName("돈뿌리기_실패 : 잘못된 대화방 입니다")
     public void shooting_fail_3() throws Exception {
-        long amount = 10000;
+        long amount = 10000L;
         int count = 5;
         CreateShootingDto dto = new CreateShootingDto(amount, count);
         String json = objectMapper.writeValueAsString(dto);
@@ -143,7 +143,7 @@ public class ShootingApiTest {
     @Test
     @DisplayName("돈뿌리기_실패 : 잘못된 유저 또는 대화방 입니다")
     public void shooting_fail_4() throws Exception {
-        long amount = 10000;
+        long amount = 10000L;
         int count = 5;
         CreateShootingDto dto = new CreateShootingDto(amount, count);
         String json = objectMapper.writeValueAsString(dto);
@@ -164,7 +164,7 @@ public class ShootingApiTest {
     @Test
     @DisplayName("돈뿌리기_실패 : 뿌리기는 참여중인 대화방 에서만 가능합니다")
     public void shooting_fail_5() throws Exception {
-        long amount = 10000;
+        long amount = 10000L;
         int count = 5;
         CreateShootingDto dto = new CreateShootingDto(amount, count);
         String json = objectMapper.writeValueAsString(dto);
@@ -187,7 +187,7 @@ public class ShootingApiTest {
     @Test
     @DisplayName("돈뿌리기_실패 : 뿌릴 인원수의 최대값은 대화방 인원수 입니다")
     public void shooting_fail_6() throws Exception {
-        long amount = 10000;
+        long amount = 10000L;
         int count = 6;
         CreateShootingDto dto = new CreateShootingDto(amount, count);
         String json = objectMapper.writeValueAsString(dto);

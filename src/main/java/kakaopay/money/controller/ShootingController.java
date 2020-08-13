@@ -9,7 +9,6 @@ import kakaopay.money.repository.ShootingRepository;
 import kakaopay.money.repository.UserRepository;
 import kakaopay.money.service.ShootingService;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
