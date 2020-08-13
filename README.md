@@ -11,8 +11,15 @@
 ERD
 ---
 ![erd](./erd.png)
-   
+
+
+
+
+
 ***
+
+
+
 
 에러메세지(ErrorMessage)
 ---
@@ -30,6 +37,8 @@ ERD
     E011("본인이 뿌린 건만 조회할 수 있습니다.", HttpStatus.NOT_ACCEPTABLE),
     E012("뿌린 건에 대한 조회는 7일 동안만 할 수 있습니다.", HttpStatus.NOT_ACCEPTABLE);
 ```
+
+
 HTTP Header
 ---
 * 사용자와 단톡방 정보가 유효한지, 유저가 해당 단톡방에 들어있는지 체크합니다.
@@ -43,8 +52,10 @@ HTTP Header
 > ```E003``` 유효한 유저/단톡방이 아닌경우   
 > ```E004``` 유저가 단톡방에 들어있지 않은 경우    
 
+***
 
-뿌리기(POST /api/v1/shooting)
+
+ 1.뿌리기 (POST /api/v1/shooting)
 ---
 * Request Body
 
@@ -95,7 +106,8 @@ private long[] distribute(long amount, int count) {
 }
 ```
 
-받기(PUT /api/v1/shooting)
+
+2.받기 (PUT /api/v1/shooting)
 ---
 * Request Param
 
@@ -122,7 +134,8 @@ private long[] distribute(long amount, int count) {
 }
 ```
 
-조회(GET /api/v1/shooting)
+
+3.조회 (GET /api/v1/shooting)
 ---
 * Request Param
 
