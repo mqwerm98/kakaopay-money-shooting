@@ -110,7 +110,7 @@ public class ShootingService {
 
     public ShootingInfoDto getInfo(Shooting shooting) {
         List<Receive> receiveList = receiveRepository.findByShootingAndReceived(shooting, true);
-        long receivedAmount = ((LongStream) receiveList.stream().map(Receive::getAmount)).sum();
+        long receivedAmount = receiveList.stream().mapToLong(Receive::getAmount).sum();
 
         List<ReceiveMoneyDto> receiveMoneyDtoList = receiveList.stream()
                 .map(r -> new ReceiveMoneyDto(r.getAmount(), r.getUser().getId()))
