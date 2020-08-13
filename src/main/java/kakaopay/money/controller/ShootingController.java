@@ -11,7 +11,6 @@ import kakaopay.money.service.ShootingService;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +18,9 @@ import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/v1")
 public class ShootingController {
 
     private static final String USER_ID = "X-USER-ID";
@@ -68,7 +68,11 @@ public class ShootingController {
     @GetMapping("/money")
     public Response receiveMoney(@RequestHeader(USER_ID) Long userId,
                              @RequestHeader(ROOM_ID) String roomId,
-                             @Valid @Length(min = 3, max = 3) @RequestParam("token") String token) {
+                             @RequestParam("token") String token) {
+
+        if (token.length() != 3) {
+            return Response.BAD_REQUEST_ERROR("token 길이는 3이어야 합니다.");
+        }
 
         UUID roomUUID = shootingService.stringToUUID(roomId);
         if (roomUUID == null) {
@@ -109,14 +113,18 @@ public class ShootingController {
     @GetMapping("/shooting")
     public Response getShootingInfo(@RequestHeader(USER_ID) Long userId,
                              @RequestHeader(ROOM_ID) String roomId,
-                             @Valid @Length(min = 3, max = 3) @RequestParam("token") String token) {
+                             @RequestParam("token") String token) {
+
+        if (token.length() != 3) {
+            return Response.BAD_REQUEST_ERROR("token 길이는 3이어야 합니다.");
+        }
 
         UUID roomUUID = shootingService.stringToUUID(roomId);
         if (roomUUID == null) {
             return Response.BAD_REQUEST_ERROR("잘못된 대화방 입니다.");
         }
 
-        if (!shootingService.existUserRoom(userId, roomUUID)) {
+        if (!shootingService.existUserRoom(userId, roomUUID)){
             return Response.BAD_REQUEST_ERROR("잘못된 유저 또는 대화방 입니다.");
         }
 

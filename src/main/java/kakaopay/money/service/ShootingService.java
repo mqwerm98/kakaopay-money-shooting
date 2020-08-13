@@ -61,10 +61,10 @@ public class ShootingService {
         User user = userRepository.findById(userId).get();
         Room room = roomRepository.findById(roomId).get();
 
-
         long[] amounts = distribute(dto.getAmount(), dto.getCount());
 
         Shooting shooting = new Shooting(room, user, dto.getAmount(), dto.getCount());
+        shootingRepository.save(shooting);
 
         for (int i = 0; i < dto.getCount(); i++) {
             Receive receive = new Receive(shooting, amounts[i]);

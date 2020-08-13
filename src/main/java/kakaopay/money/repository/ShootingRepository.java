@@ -7,4 +7,7 @@ import java.util.UUID;
 
 public interface ShootingRepository extends JpaRepository<Shooting, Long> {
     Shooting findByRoomIdAndToken(UUID roomId, String token);
+
+    Shooting findTop1ByOrderByCreateDateDesc();
+
 }

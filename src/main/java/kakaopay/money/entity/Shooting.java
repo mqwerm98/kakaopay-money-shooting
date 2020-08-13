@@ -42,4 +42,9 @@ public class Shooting {
         this.token = RandomString.make(3);
         this.createDate = LocalDateTime.now();
     }
+
+    // !! TEST용 !!
+    public void changeCreateDateOnlyTest(LocalDateTime date) {
+        this.createDate = date;
+    }
 }
