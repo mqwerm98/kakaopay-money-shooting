@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import static kakaopay.money.controller.ShootingController.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -46,9 +47,6 @@ public class GetShootingInfoApiTest {
 
     @Autowired private ShootingRepository shootingRepository;
 
-    private static final String USER_ID = "X-USER-ID";
-    private static final String ROOM_ID = "X-ROOM-ID";
-    private static final String URL = "/api/v1/shooting";
 
     @BeforeEach
     private void shootingAndAllReceive() throws Exception {
